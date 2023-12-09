@@ -4,7 +4,7 @@ import pdfplumber
 def compare_pdfs(source_folder, target_folder, log_file):
     source_files = os.listdir(source_folder)
     target_files = os.listdir(target_folder)
-
+//
     common_files = set(source_files) & set(target_files)
 
     with open(log_file, 'w') as log:
@@ -35,5 +35,4 @@ if __name__ == "__main__":
     target_folder = "path/to/target/folder"
     log_file = "comparison_log.txt"
 
-    compare_pdfs(source_folder, target_folder, log_file)
-///
+    compare_pdfs(source_folder, target_folder, log_file)``
