@@ -22,6 +22,7 @@ def compare_pdfs(source_folder, target_folder, log_file):
                     log.write(f"File {filename} is different:\n")
                     log.write(f"Reason: Text content does not match.\n\n")
 
+
 def extract_text_from_pdf(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
         text = ""
@@ -35,3 +36,4 @@ if __name__ == "__main__":
     log_file = "comparison_log.txt"
 
     compare_pdfs(source_folder, target_folder, log_file)
+///
