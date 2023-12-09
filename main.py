@@ -1,14 +1,15 @@
 import os
 import pdfplumber
+import csv
 
-def compare_pdfs(source_folder, target_folder, log_file):
-    source_files = os.listdir(source_folder)
-    target_files = os.listdir(target_folder)
-//
-    common_files = set(source_files) & set(target_files)
+def compare_pdfs(source_folder, target_folder, csv_file, log_file):
+    # Read filenames from the CSV
+    with open(csv_file, 'r') as csv_file:
+        reader = csv.reader(csv_file)
+        filenames = [row[0] for row in reader]
 
     with open(log_file, 'w') as log:
-        for filename in common_files:
+        for filename in filenames:
             source_path = os.path.join(source_folder, filename)
             target_path = os.path.join(target_folder, filename)
 
@@ -31,8 +32,9 @@ def extract_text_from_pdf(pdf_path):
         return text
 
 if __name__ == "__main__":
-    source_folder = "path/to/source/folder"
-    target_folder = "path/to/target/folder"
+    source_folder = "source/"
+    target_folder = "target/"
+    csv_file = "file_list.csv"
     log_file = "comparison_log.txt"
 
-    compare_pdfs(source_folder, target_folder, log_file)``
+    compare_pdfs(source_folder, target_folder, csv_file, log_file)
