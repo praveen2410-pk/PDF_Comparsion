@@ -1,4 +1,19 @@
-Files 79342579_LA and 2410 are identical.
-File sizes: Source 733925 bytes, Target 733925 bytes.
-Content match percentage: 100.00%
+Processing files: source/79466729_Black.pdf, target/79466729.pdf
+Source and target file sizes match (268.06 KB).
+Source and target page counts match (3 pages).
+Files 79466729_Black and 79466729 are identical.
 
+Processing files: source/79342579_LA.pdf, target/79466729.pdf
+Source and target file sizes do not match.
+Target file does not match with the source file.
+
+Processing files: source/79466729_Black.pdf, target/79466729.pdf
+Source and target file sizes match (268.06 KB).
+Source and target page counts match (3 pages).
+Files 79466729_Black and 79466729 are identical.
+
+
+Processed 3 files.
+Identical: 2 files.
+Non Identical: 1 files.
+Script end time: 2023-12-11 16:07:41
