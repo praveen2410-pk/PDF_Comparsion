@@ -1,19 +1,5 @@
-Processing files: source/79466729_Black.pdf, target/79466729.pdf
-Source and target file sizes match (268.06 KB).
-Source and target page counts match (3 pages).
-Files 79466729_Black and 79466729 are identical.
-
-Processing files: source/79342579_LA.pdf, target/79466729.pdf
-Source and target file sizes do not match.
-Target file does not match with the source file.
-
-Processing files: source/79466729_Black.pdf, target/79466729.pdf
-Source and target file sizes match (268.06 KB).
-Source and target page counts match (3 pages).
-Files 79466729_Black and 79466729 are identical.
-
-
-Processed 3 files.
-Identical: 2 files.
-Non Identical: 1 files.
-Script end time: 2023-12-11 16:07:41
+Source_FileName,Traget file name,Source_FileSize,Target_FileSize,Source_PageCount,Target_PageCount,Identical,Comments
+79342579_LA,79466729,716.72 KB,268.06 KB,5,3,Non Identical,File size does not match.
+79466729_Black,79466729,268.06 KB,268.06 KB,3,3,Identical,File compared successfully
+2410,1999,268.06 KB,268.06 KB,3,3,Identical,File compared successfully
+2410,1998,268.06 KB,,-,-,-,Target file not found.
