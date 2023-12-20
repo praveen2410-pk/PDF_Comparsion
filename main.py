@@ -77,5 +77,6 @@ if __name__ == "__main__":
     target_folder = "target/"
     csv_file = "file_list.csv"
     log_file = "comparison_log.txt"
+    print("hi....")
 
     compare_pdfs(source_folder, target_folder, csv_file, log_file)
