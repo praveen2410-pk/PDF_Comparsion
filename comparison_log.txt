@@ -1,5 +1,0 @@
-Source_FileName,Traget file name,Source_FileSize,Target_FileSize,Source_PageCount,Target_PageCount,Identical,Comments
-79342579_LA,79466729,716.72 KB,268.06 KB,5,3,Non Identical,File size does not match.
-79466729_Black,79466729,268.06 KB,268.06 KB,3,3,Identical,File compared successfully
-2410,1999,268.06 KB,268.06 KB,3,3,Identical,File compared successfully
-2410,1998,268.06 KB,,-,-,-,Target file not found.
