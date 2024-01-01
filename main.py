@@ -50,8 +50,8 @@ class SampleDriver:
                 # print("Differences between the files:")
                 loggers.info("Differences between the files.\n")
                 # log.write("Differences between the files.\n")
-                # for line in mismatched_lines:
-                # print(line)
+                for line in mismatched_lines:
+                    print(line)
 
             else:
                 # identical_count += 1
@@ -197,17 +197,17 @@ def compare_pdfs(source_folder, target_folder, csv_file, log_file):
                     # if variable.value:
                     if mismatched_lines:
                         non_identical_count += 1
-                        print("Differences between the files:")
-                        loggers.info("Differences between the files.\n")
-                        log.write("Differences between the files.\n")
+                        # print("Differences between the files:")
+                        # loggers.info("Differences between the files.\n")
+                        # log.write("Differences between the files.\n")
                         # for line in mismatched_lines:
-                        # print(line)
+                        #     print(line)
 
                     else:
                         identical_count += 1
-                        print("No differences found between the files.")
-                        loggers.info("No differences found between the files.\n")
-                        log.write("No differences found between the files.\n")
+                        # print("No differences found between the files.")
+                        # loggers.info("No differences found between the files.\n")
+                        # log.write("No differences found between the files.\n")
 
                 else:
                     non_identical_count += 1
