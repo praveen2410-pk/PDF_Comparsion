@@ -1,8 +1,2 @@
-2023-12-27 16:39:04,439 [INFO] : ########### Execution Started ##########
-2023-12-27 16:39:04,646 [INFO] : 79342579_LA,79342579_LA,2.46 MB,2.46 MB,172,172,
-2023-12-27 16:39:22,318 [INFO] : No differences found between the files.
-
-2023-12-27 16:39:22,561 [INFO] : 79342579_LA,79342579_LA1,2.46 MB,2.47 MB,172,172,
-2023-12-27 16:39:31,786 [INFO] : Differences between the files.
-
-2023-12-27 16:39:31,793 [INFO] : ##################### Execution Completed in 0:00:27 ################
+2024-01-01 15:14:03,391 [INFO] : No differences found between the files.
+2024-01-01 15:14:03,444 [INFO] : ##################### Execution Completed in 0:00:25 ################
