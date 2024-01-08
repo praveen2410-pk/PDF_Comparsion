@@ -1,6 +1,28 @@
-2024-01-01 15:26:58,680 [INFO] : No differences found between the files.
-2024-01-01 15:27:26,066 [INFO] : ##################### Execution Completed in 0:00:46 ################
-differences found between the files.
+[2024-01-08 13:07:58,102| INFO| MainProcess] ########### Execution Started ##########
+[2024-01-08 13:07:58,110| INFO| MainProcess] Total Files Selected For Recon: 4
+[2024-01-08 13:08:04,693| INFO| SpawnPoolWorker-3] child process calling self.run()
+[2024-01-08 13:08:04,725| INFO| SpawnPoolWorker-3] 79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,
+[2024-01-08 13:08:04,868| INFO| SpawnPoolWorker-2] child process calling self.run()
+[2024-01-08 13:08:05,136| INFO| SpawnPoolWorker-1] child process calling self.run()
+[2024-01-08 13:08:05,205| INFO| SpawnPoolWorker-2] 79352303_LA_Eng,79352303_LA_Eng,1.08 MB,1.08 MB,76,76,
+[2024-01-08 13:08:05,815| INFO| SpawnPoolWorker-1] 79342579_LA,79342579_LA3,2.46 MB,2.58 MB,172,172,
+[2024-01-08 13:08:07,041| INFO| SpawnPoolWorker-3] 79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,
+[2024-01-08 13:08:07,053| INFO| SpawnPoolWorker-3] No differences found between the files.
 
-2024-01-01 15:27:26,028 [INFO] : Differences between the files.
+[2024-01-08 13:08:07,764| INFO| SpawnPoolWorker-3] 79342579_LA,79342579_LA,2.46 MB,2.46 MB,172,172,
+[2024-01-08 13:08:09,820| INFO| SpawnPoolWorker-2] 79352303_LA_Eng,79352303_LA_Eng,1.08 MB,1.08 MB,76,76,
+[2024-01-08 13:08:15,318| INFO| SpawnPoolWorker-1] 79342579_LA,79342579_LA3,2.46 MB,2.58 MB,172,172,
+[2024-01-08 13:08:15,330| INFO| SpawnPoolWorker-3] 79342579_LA,79342579_LA,2.46 MB,2.46 MB,172,172,
+[2024-01-08 13:09:04,946| INFO| SpawnPoolWorker-2] No differences found between the files.
 
+[2024-01-08 13:09:16,262| INFO| SpawnPoolWorker-3] No differences found between the files.
+
+[2024-01-08 13:09:16,265| INFO| SpawnPoolWorker-1] process shutting down
+[2024-01-08 13:09:16,265| INFO| SpawnPoolWorker-2] process shutting down
+[2024-01-08 13:09:16,265| INFO| SpawnPoolWorker-3] process shutting down
+[2024-01-08 13:09:16,265| INFO| SpawnPoolWorker-1] process exiting with exitcode 0
+[2024-01-08 13:09:16,265| INFO| SpawnPoolWorker-2] process exiting with exitcode 0
+[2024-01-08 13:09:16,265| INFO| SpawnPoolWorker-3] process exiting with exitcode 0
+[2024-01-08 13:09:19,883| INFO| MainProcess] Time Taken For Execution:0:01:21
+[2024-01-08 13:09:19,883| INFO| MainProcess] ##################### Execution Completed in 0:01:21 ################
+[2024-01-08 13:09:24,512| INFO| MainProcess] process shutting down
