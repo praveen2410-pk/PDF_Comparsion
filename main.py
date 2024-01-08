@@ -281,7 +281,7 @@ def compare_pdfs(data):
                     overview_DF = pd.DataFrame(
                         [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),
                           convert_bytes_to_human_readable(target_size), source_page_count, target_page_count,
-                          "Differences between the files"]])
+                          "Not Matching"]])
 
                     # log.write("Differences between the files.\n")
                     for line in mismatched_lines:
@@ -293,7 +293,7 @@ def compare_pdfs(data):
                     loggers.info("No differences found between the files.\n")
                     # log.write("No differences found between the files.\n")
                     overview_DF = pd.DataFrame(
-                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), convert_bytes_to_human_readable(target_size), source_page_count, target_page_count, "No differences found"]])
+                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), convert_bytes_to_human_readable(target_size), source_page_count, target_page_count, "Matching"]])
                     # ''79342579_LA	79342579_LA.1	2.46 MB	2.46 MB.1	172	172.1	No differences found between the files.""
 
 
@@ -583,13 +583,115 @@ if __name__ == "__main__":
 
     dataFrame.to_csv("./Overview.csv", index=False)
 
-    end_time = time.time()
-    print("\nComparison summary:")
-    # print(f"Processed {processed_files} files.")
-    # print(f"Identical: {identical_count} files.")
-    # print(f"Non Identical: {non_identical_count} files.")
-    # print(f"Script end time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end_time))}")
+    OverviewDF_Matching_Count = (dataFrame.loc[dataFrame['Status'] == "Matching"]).shape[0]
+    OverviewDF_Not_Matching_Count = (dataFrame.loc[dataFrame['Status'] != "Matching"]).shape[0]
+    # write html to file
+    text_file = open("./Overview.html", "w")
+    # PassPercentage = round((int(OverviewDF_Matching_Count) / (int(OverviewDF_Matching_Count) + int(OverviewDF_Not_Matching_Count))) * 100,2)
+    # html_text = Utilities.html_syntax(OverviewDF_Matching_Count, OverviewDF_Not_Matching_Count, PassPercentage,
+    #                                   overview_html)
 
+    # text = text_file.read();
+    # print(text)
+
+    htmltextconvert = ''' 
+        <!DOCTYPE html>
+        <html lang="en">
+        <link href= "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <style>
+            .container{
+            background-color: #016064;
+        }
+        p{
+            text-align: center;
+        }
+
+        </style>
+        <body onload="load()">
+        <p>
+        <div class="d-flex justify-content-center fs-1 fw-bold "> PDF Recon Report </div>
+      <div class="d-flex justify-content-center fs-1 fw-bold "style="color: #016064;">Overview</div>
+      </p>
+      <p>
+      <div class="container">
+         <div class="row">
+            <div class="col-sm">
+               <p id='0101' class="fs-2 text-light">0</p>
+               <p class="text-light">Matching</p>
+            </div>
+            <div class="col-sm">
+               <p id='0102' class="fs-2 text-light">876</p>
+               <p class="text-light">Not Matching</p>
+         </div>
+
+            <div class="col-sm">
+               <p id='0104' class="fs-2 text-light">876</p>
+               <p class="text-light">Total</p>
+         </div>
+
+   <!--      <div class="col-sm">
+            <p class="fs-2 text-light"><span id='0103'>12</span>%</p>
+            <p class="text-light align-content-center">Total</p>
+         </div>
+    -->
+      </div>
+   </div>
+   </p>
+
+   <script>
+      function animate(obj, initVal, lastVal, duration) {
+         let startTime = null;
+
+      //get the current timestamp and assign it to the currentTime variable
+      let currentTime = Date.now();
+
+      //pass the current timestamp to the step function
+      const step = (currentTime ) => {
+
+      //if the start time is null, assign the current time to startTime
+      if (!startTime) {
+         startTime = currentTime ;
+      }
+
+      //calculate the value to be used in calculating the number to be displayed
+      const progress = Math.min((currentTime - startTime)/ duration*3, 1);
+
+      //calculate what to be displayed using the value gotten above
+  	obj.innerHTML = Math.floor(progress * (lastVal - initVal) +initVal );
+
+
+      //checking to make sure the counter does not exceed the last value (lastVal)
+      if (progress < 1) {
+         window.requestAnimationFrame(step);
+      } else {
+            window.cancelAnimationFrame(window.requestAnimationFrame(step));
+         }
+      };
+      //start animating
+         window.requestAnimationFrame(step);
+      }
+      let text1 = document.getElementById('0101');
+      let text2 = document.getElementById('0102');
+    //  let text3 = document.getElementById('0103');
+      let text4 = document.getElementById('0104');
+      const load = () => {
+        animate(text1, 0, '''+str(OverviewDF_Matching_Count)+''', 7000);
+          animate(text2, 0, '''+str(OverviewDF_Not_Matching_Count)+''', 7000);
+         // animate(text3,  100000, 20, 7000);
+       animate(text4, 100, '''+(str(OverviewDF_Matching_Count+OverviewDF_Not_Matching_Count))+''', 7000);
+       
+      }
+   </script>
+</body>
+</html>
+    '''
+
+    text_file.write(htmltextconvert)
+    text_file.close()
+
+
+    end_time = time.time()
     # end_time = time.time()
     TimeTaken = convert(end_time - start_time)
     # print('Time Taken For Execution:' + str(TimeTaken))

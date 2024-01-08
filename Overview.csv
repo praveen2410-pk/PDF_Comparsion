@@ -1,5 +1,11 @@
 SourceFileName,TargetFileName,SourceFileSize,TargetFileSize,SourcePageCount,TargetPageCount,Status
-79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,No differences found
-79352303_LA_Eng,79352303_LA_Eng,1.08 MB,1.08 MB,76,76,No differences found
-79342579_LA,79342579_LA3,2.46 MB,2.58 MB,172,172,Differences between the files
-79342579_LA,79342579_LA,2.46 MB,2.46 MB,172,172,No differences found
+79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,Matching
+79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,Matching
+79466729_Black,79466729_Black3,216.85 KB,260.40 KB,2,2,Not Matching
+79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,Matching
+79466729_Black,79466729_Black3,216.85 KB,260.40 KB,2,2,Not Matching
+79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,Matching
+79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,Matching
+79466729_Black,79466729_Black2,216.85 KB,222.36 KB,2,2,Not Matching
+79466729_Black,79466729_Black,216.85 KB,216.85 KB,2,2,Matching
+79466729_Black,79466729_Black2,216.85 KB,222.36 KB,2,2,Not Matching
