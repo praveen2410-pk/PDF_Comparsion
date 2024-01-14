@@ -1,21 +1,21 @@
-import csv
 import glob
-import inspect
 import logging
 import os
-import sys
-from multiprocessing import process, freeze_support
+import random
+from multiprocessing import freeze_support
+from urllib import response
 
 import PySimpleGUI as sg
 import nltk
 import numpy as np
 import pandas as pd
+import paramiko
 import pdfplumber
-import logging
+import requests
 
 
 column_names = ["SourceFileName", "TargetFileName", "SourceFileSize",
-                "TargetFileSize", "SourcePageCount", "TargetPageCount","Status"]
+                "TargetFileSize", "SourcePageCount", "TargetPageCount","Status","Comments"]
 
 overview = pd.DataFrame(columns=column_names)
 
@@ -186,7 +186,7 @@ def compare_and_highlight(source_path, target_path,source_filename,target_filena
             #     logger.info("\n")
             #     # log.write("\n")
 
-            print(" Compared ...")
+            # print(" Compared ...")
             time.sleep(0.01)
 
             return mismatched_lines
@@ -206,153 +206,250 @@ def convert_bytes_to_human_readable(size_in_bytes):
 
 import multiprocessing
 
+import shutil, os
 
 def compare_pdfs(data):
+    try:
+        row = data[1]
+        source_folder = "source/"
+        target_folder = "target/"
 
-    row = data[1]
-    source_folder = "source/"
-    target_folder = "target/"
+        local = "./target/"
 
-    # source_folder, target_folder = t
-    csv_file = "file_list.csv"
-    log_file = "Results.txt"
-    processed_files = 0
-    identical_count = 0
-    non_identical_count = 0
+        # source_folder, target_folder = t
+        csv_file = "file_list.csv"
+        log_file = "Results.txt"
+        processed_files = 0
+        identical_count = 0
+        non_identical_count = 0
 
-    source_filename = str(row.Source_FileName)
-    target_filename = str(row.Target_FileName)
+        source_filename = str(row.Source_FileName)
+        target_filename = str(row.Target_FileName)
 
-    source_path = os.path.join(source_folder, f"{source_filename}.pdf")
-    target_path = os.path.join(target_folder, f"{target_filename}.pdf")
-    # data.append((source_path, target_path,"output.txt",processed_files,identical_count,non_identical_count,source_filename,target_filename))
+        try:
+            environmentDF = pd.read_csv("TestData.csv")
+            RunControlllist = environmentDF[environmentDF['RunControll'] == 'Yes']
+            environmentlist = RunControlllist['ENVIRONMENT'].values
+            Runlist = RunControlllist['RunControll'].values
+            Execution_Modelist = RunControlllist['Execution_Mode'].values
+            SOURCE_PATHllist = RunControlllist['SOURCE_PATH'].values
+            TARGET_PATHlist = RunControlllist['TARGET_PATH'].values
 
-    # mismatched_lines = p.map(SampleDriver.compare_and_highlight, data)
-    # mismatched_lines = SampleDriver.compare_and_highlight(source_path,target_path,source_filename,target_filename)
-    # for val in mismatched_lines:
-    #             print(val)
+            environment = environmentlist[0]
+            RunControll = Runlist[0]
+            Execution_Mode = Execution_Modelist[0]
+            SOURCE_PATH = SOURCE_PATHllist[0]
+            TARGET_PATH = TARGET_PATHlist[0]
 
-    processed_files += 1
+            if (Execution_Mode == 'Remote'):
 
-    if os.path.isfile(source_path):
-        source_size = os.path.getsize(source_path)
-        source_page_count = get_page_count(source_path)
+                # environmentDataDF = pd.read_csv("TestData.csv", sheet_name='ENV_Details')
+                environmentData = RunControlllist.loc[RunControlllist['ENVIRONMENT'] == environment]
+                IP_ADDRESS = (environmentData['IP'].values)[0]
+                PORT_NUMBER = (environmentData['PORT'].values)[0]
+                USERNAME = (environmentData['USERNAME'].values)[0]
+                PASSWORD = (environmentData['PASSWORD'].values)[0]
+                loggers.info('ENVIRONMENT: ' + environment)
 
-        if os.path.isfile(target_path):
-            target_size = os.path.getsize(target_path)
-            target_page_count = get_page_count(target_path)
+                loggers.info("########### Creating Connection ##########")
+                client = paramiko.SSHClient()
+                client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                client.connect(IP_ADDRESS, int(PORT_NUMBER), username=USERNAME, password=PASSWORD)
+                SFTP_client = client.open_sftp()
+                # print("Remote System Connected Successfully....")
+                loggers.info("Remote System Connected Successfully....")
+                # targetfileDF = read_remoteFile_csv(SFTP_client, TARGET_PATH,TargetFileName)
 
-            loggers.info(
-                f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},{convert_bytes_to_human_readable(target_size)},{source_page_count},{target_page_count},")
-            # log.write(
-            #     f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},{convert_bytes_to_human_readable(target_size)},{source_page_count},{target_page_count},")
+                remotepath = TARGET_PATH + "/" + target_filename + ".pdf";
+                # remotepath = TARGET_PATH + "/79466729_Black.pdf";
+                # remote_file = SFTP_client.open(remotepath)
+                # remote_file = "/home/pin/PDF_Bills/79418536_MobileServices.csv"
+                # targetfileDF = pd.read_csv(remote_file, dtype=str, on_bad_lines='skip')
+                # print(targetfileDF)
 
-            if source_page_count == target_page_count:
-                # identical_count += 1
+                # targetTempStrPath = "./target/temp/" + target_filename + "_temp" + str(random_number) + ".pdf"
 
-                # Input PDF file paths
-                pdf_path1 = source_filename
-                pdf_path2 = target_filename
+                random_number = random.randint(1, 1000)
+                SFTP_client.get(remotepath,               "./target/temp/" + target_filename + "_temp" + str(random_number)+".pdf");
+                target_path = os.path.join("./target/temp/",f"{target_filename+ "_temp" + str(random_number)}.pdf")
 
-                # Output PDF file path with differing words highlighted in red
-                output_path = 'out.pdf'
+                SFTP_client.close()
 
-                # process = multiprocessing.Process(target=SampleDriver.compare_and_highlight, args=(source_path, target_path, output_path))
-                # result = process.map(target=SampleDriver.compare_and_highlight, args = (source_path, target_path, output_path))
-                # mismatched_lines =  compare_pdfs(source_folder, target_folder, csv_file, log_file)
-                # print(result)
+            elif (Execution_Mode == "Local"):
+                # targetfileDF = pd.read_csv("Dumps\\TARGET\\" + target_filename + ".csv", dtype=str, on_bad_lines='skip')
+                # print(targetfileDF)
+                target_path = os.path.join(local, f"{target_filename}.pdf")
 
-                # numbers = [1, 5, 9]
-                # pool = multiprocessing.Pool(processes=1)
-                # print(pool.map(SampleDriver.compare_and_highlight,[[source_path, target_path, output_path]]))
+        except Exception as e:
+            print("Unable to connect remote ip " + IP_ADDRESS)
+            print(e)
+            loggers.error(e)
+            overview_DF = pd.DataFrame(
+                [[source_filename, target_filename, "0.00 B", "0.00 B",
+                  0,
+                  0,"Not Matching", e]])
 
-                # data = [('bla', 1, 3, 7), ('spam', 12, 4, 8), ('eggs', 17, 1, 3)]
-                # data = [(source_path, target_path, output_path)]
-                # mismatched_lines = p.map(SampleDriver.compare_and_highlight, data)
-                # print(mismatched_lines)
+        if SOURCE_PATH == "":
+            source_path = os.path.join(local, f"{source_filename}.pdf")
+        else:
+            source_path = os.path.join(SOURCE_PATH, f"{source_filename}.pdf")
 
-                mismatched_lines = compare_and_highlight(source_path, target_path,source_filename,target_filename)
+        # data.append((source_path, target_path,"output.txt",processed_files,identical_count,non_identical_count,source_filename,target_filename))
 
-                # if variable.value:
-                if mismatched_lines:
-                    non_identical_count += 1
-                    print("Differences between the files:")
-                    # loggers.info("Differences between the files.\n")
-                    overview_DF = pd.DataFrame(
-                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),
-                          convert_bytes_to_human_readable(target_size), source_page_count, target_page_count,
-                          "Not Matching"]])
+        # mismatched_lines = p.map(SampleDriver.compare_and_highlight, data)
+        # mismatched_lines = SampleDriver.compare_and_highlight(source_path,target_path,source_filename,target_filename)
+        # for val in mismatched_lines:
+        #             print(val)
 
-                    # log.write("Differences between the files.\n")
-                    for line in mismatched_lines:
-                        print(line)
+        processed_files += 1
+
+        try:
+            if os.path.isfile(source_path):
+                source_size = os.path.getsize(source_path)
+                source_page_count = get_page_count(source_path)
+
+                if os.path.isfile(target_path):
+                    target_size = os.path.getsize(target_path)
+                    target_page_count = get_page_count(target_path)
+
+                    loggers.info(
+                        f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},{convert_bytes_to_human_readable(target_size)},{source_page_count},{target_page_count},")
+                    # log.write(
+                    #     f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},{convert_bytes_to_human_readable(target_size)},{source_page_count},{target_page_count},")
+
+                    if source_page_count == target_page_count:
+                        # identical_count += 1
+
+                        # Input PDF file paths
+                        pdf_path1 = source_filename
+                        pdf_path2 = target_filename
+
+                        # Output PDF file path with differing words highlighted in red
+                        output_path = 'out.pdf'
+
+                        # process = multiprocessing.Process(target=SampleDriver.compare_and_highlight, args=(source_path, target_path, output_path))
+                        # result = process.map(target=SampleDriver.compare_and_highlight, args = (source_path, target_path, output_path))
+                        # mismatched_lines =  compare_pdfs(source_folder, target_folder, csv_file, log_file)
+                        # print(result)
+
+                        # numbers = [1, 5, 9]
+                        # pool = multiprocessing.Pool(processes=1)
+                        # print(pool.map(SampleDriver.compare_and_highlight,[[source_path, target_path, output_path]]))
+
+                        # data = [('bla', 1, 3, 7), ('spam', 12, 4, 8), ('eggs', 17, 1, 3)]
+                        # data = [(source_path, target_path, output_path)]
+                        # mismatched_lines = p.map(SampleDriver.compare_and_highlight, data)
+                        # print(mismatched_lines)
+
+                        mismatched_lines = compare_and_highlight(source_path, target_path, source_filename,
+                                                                 target_filename)
+                        # if variable.value:
+                        if mismatched_lines:
+                            non_identical_count += 1
+                            print("Differences between the files:")
+                            # loggers.info("Differences between the files.\n")
+                            overview_DF = pd.DataFrame(
+                                [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),
+                                  convert_bytes_to_human_readable(target_size), source_page_count, target_page_count,
+                                  "Not Matching","Differences between the files"]])
+
+                            # log.write("Differences between the files.\n")
+                            # for line in mismatched_lines:
+                            #     print(line)
+
+                        else:
+                            identical_count += 1
+                            print("No differences found between the files.")
+                            loggers.info("No differences found between the files.\n")
+                            # log.write("No differences found between the files.\n")
+                            overview_DF = pd.DataFrame(
+                                [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),
+                                  convert_bytes_to_human_readable(target_size), source_page_count, target_page_count,
+                                  "Matching","No differences found between the files"]])
+                            # ''79342579_LA	79342579_LA.1	2.46 MB	2.46 MB.1	172	172.1	No differences found between the files.""
+
+
+                    else:
+                        non_identical_count += 1
+                        # print("Non Identical")
+                        loggers.info("Non Identical,")
+                        # log.write("Non Identical,")
+
+                        if source_size != target_size:
+                            # print("File size does not match.\n")
+                            loggers.info("File size does not match.\n")
+                            # log.write("File size does not match.\n")
+                            overview_DF = pd.DataFrame(
+                                [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),
+                                  convert_bytes_to_human_readable(target_size), source_page_count,
+                                  target_page_count,"Not Matching", "File size does not match."]])
+
+                        elif source_page_count != target_page_count:
+                            # print("Page count does not match.\n")
+                            loggers.info("Page count does not match.\n")
+                            # log.write("Page count does not match.\n")
+                            overview_DF = pd.DataFrame(
+                                [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),
+                                  convert_bytes_to_human_readable(target_size), source_page_count,
+                                  target_page_count,"Not Matching", "Page count does not match."]])
+
+                        loggers.info("\n")
+                        # log.write("\n")
 
                 else:
-                    identical_count += 1
-                    print("No differences found between the files.")
-                    loggers.info("No differences found between the files.\n")
-                    # log.write("No differences found between the files.\n")
+                    non_identical_count += 1
+                    loggers.info(
+                        f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},,-,-,-,Target file not found.\n")
+                    # log.write(
+                    #     f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},,-,-,-,Target file not found.\n")
+                    # print("Target file not found.\n");
                     overview_DF = pd.DataFrame(
-                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), convert_bytes_to_human_readable(target_size), source_page_count, target_page_count, "Matching"]])
-                    # ''79342579_LA	79342579_LA.1	2.46 MB	2.46 MB.1	172	172.1	No differences found between the files.""
-
+                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), "0.00 B",
+                          source_page_count,
+                          "0","Not Matching", "Target file not found."]])
+                    # continue
 
             else:
                 non_identical_count += 1
-                # print("Non Identical")
-                loggers.info("Non Identical,")
-                # log.write("Non Identical,")
+                # print("Source file not found.\n");
+                loggers.info(f"{source_filename},{target_filename},,-,-,-,-,Source file not found.\n")
+                # log.write(f"{source_filename},{target_filename},,-,-,-,-,Source file not found.\n")
+                # continue
+                if os.path.isfile(target_path):
+                    target_size = os.path.getsize(target_path)
+                    target_page_count = get_page_count(target_path)
+                else:
+                    target_size = 0
+                    target_page_count = 0
 
-                if source_size != target_size:
-                    # print("File size does not match.\n")
-                    loggers.info("File size does not match.\n")
-                    # log.write("File size does not match.\n")
-                    overview_DF = pd.DataFrame(
-                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), convert_bytes_to_human_readable(target_size), source_page_count,
-                          target_page_count, "File size does not match."]])
+                overview_DF = pd.DataFrame(
+                    [[source_filename, target_filename, "0.00 B", convert_bytes_to_human_readable(target_size), "0",
+                      target_page_count, "Not Matching","Source file not found."]])
 
-                elif source_page_count != target_page_count:
-                    # print("Page count does not match.\n")
-                    loggers.info("Page count does not match.\n")
-                    # log.write("Page count does not match.\n")
-                    overview_DF = pd.DataFrame(
-                        [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), convert_bytes_to_human_readable(target_size), source_page_count,
-                          target_page_count, "Page count does not match."]])
+            if (Execution_Mode == 'Remote'):
+                if os.path.exists(target_path):
+                    os.remove(target_path)
+                    # print(target_path +" file delete...")
+                else:
+                    print(target_path+ " file does not exist")
 
-                loggers.info("\n")
-                # log.write("\n")
-
-        else:
-            non_identical_count += 1
-            loggers.info(
-                f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},,-,-,-,Target file not found.\n")
-            # log.write(
-            #     f"{source_filename},{target_filename},{convert_bytes_to_human_readable(source_size)},,-,-,-,Target file not found.\n")
-            # print("Target file not found.\n");
+        except:
+            print("getting error while reading target file......")
             overview_DF = pd.DataFrame(
-                [[source_filename, target_filename, convert_bytes_to_human_readable(source_size),"0.00 B", source_page_count,
-                  "0", "Target file not found."]])
-            # continue
+                [[source_filename, target_filename, convert_bytes_to_human_readable(source_size), "0.00 B",
+                  source_page_count,
+                  "0","Not Matching","Target file not found."]])
 
 
-    else:
-        # print("Source file not found.\n");
-        loggers.info(f"{source_filename},{target_filename},,-,-,-,-,Source file not found.\n")
-        # log.write(f"{source_filename},{target_filename},,-,-,-,-,Source file not found.\n")
-        # continue
-        if os.path.isfile(target_path):
-            target_size = os.path.getsize(target_path)
-            target_page_count = get_page_count(target_path)
-        else:
-            target_size = 0
-            target_page_count = 0
-
+    except:
+        print("issue in file comparison method..")
+        logger.info("\n issue in file comparison method..")
+        if (Execution_Mode == 'Remote'):
+            SFTP_client.close()
         overview_DF = pd.DataFrame(
-            [[source_filename, target_filename, "0.00 B", convert_bytes_to_human_readable(target_size), "0",
-              target_page_count, "Source file not found."]])
-
-    # df = pd.read_csv("Results.txt")
-    # df.to_csv("Results.csv", index=False)
+                [[source_filename, target_filename, "0.00 B", "0.00 B",
+                  "0",
+                  "0", "Not Matching","Source file not found."]])
 
     # end_time = time.time()
     # print("\nComparison summary:")
@@ -360,10 +457,8 @@ def compare_pdfs(data):
     # print(f"Identical: {identical_count} files.")
     # print(f"Non Identical: {non_identical_count} files.")
     # print(f"Script end time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end_time))}")
+
     return overview_DF
-
-
-
 
 import hashlib
 
@@ -487,7 +582,7 @@ def create_logger():
         logger.addHandler(handler)
     return logger
 
-from multiprocessing import get_logger
+
 logger = None
 
 log_file_path = './' # Wherever your log files live
@@ -529,34 +624,109 @@ def ClearLogs():
             for f in filelist:
                 open(f, 'w+')
 
+import multiprocessing as mp
+import requests
+def getTargetDF(loggers,TargetFileName):
+
+    try:
+        environmentDF = pd.read_csv("TestData.csv")
+        RunControlllist = environmentDF[environmentDF['RunControll'] == 'Yes']
+        environmentlist = RunControlllist['ENVIRONMENT'].values
+        Runlist = RunControlllist['RunControll'].values
+        Execution_Modelist = RunControlllist['Execution_Mode'].values
+        SOURCE_PATHllist =  RunControlllist['SOURCE_PATH'].values
+        TARGET_PATHlist = RunControlllist['TARGET_PATH'].values
+        local = "//DUMPS//REMOTE_TARGET//"
+
+        environment = environmentlist[0]
+        RunControll = Runlist[0]
+        Execution_Mode = Execution_Modelist[0]
+        SOURCE_PATH = SOURCE_PATHllist[0]
+        TARGET_PATH = TARGET_PATHlist[0]
+
+        if(Execution_Mode == 'Remote'):
+            # environmentDataDF = pd.read_csv("TestData.csv", sheet_name='ENV_Details')
+            environmentData = environmentDF.loc[environmentDF['ENVIRONMENT'] == environment]
+            IP_ADDRESS = (environmentData['IP'].values)[0]
+            PORT_NUMBER = (environmentData['PORT'].values)[0]
+            USERNAME = (environmentData['USERNAME'].values)[0]
+            PASSWORD = (environmentData['PASSWORD'].values)[0]
+            loggers.info('ENVIRONMENT: ' + environment)
+
+            loggers.info("########### Creating Connection ##########")
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(IP_ADDRESS, int(PORT_NUMBER), username=USERNAME, password=PASSWORD)
+            SFTP_client = client.open_sftp()
+            print("Remote System Connected Successfully....")
+            loggers.info("Remote System Connected Successfully....")
+            # targetfileDF = read_remoteFile_csv(SFTP_client, TARGET_PATH,TargetFileName)
+            remotepath = TARGET_PATH+TargetFileName+".csv";
+            emote_file = SFTP_client.open(remotepath)
+            # targetfileDF = pd.read_csv(emote_file, dtype=str, on_bad_lines='skip')
+            # print(df)
+            with open('/tmp/metadata.pdf', 'wb') as f:
+                f.write(response.content)
+                for line in f:
+                    print(line)
+
+            # SFTP_client.close()
+
+        elif(Execution_Mode == "Local"):
+            targetfileDF = pd.read_csv("Dumps\\TARGET\\" + TargetFileName + ".csv", dtype=str, on_bad_lines='skip')
+            # print(targetfileDF)
+
+        return targetfileDF
+
+    except Exception as e:
+        # print("Unable to connect remote ip "+IP_ADDRESS)
+        print(e)
+        loggers.error(e)
+
+
 if __name__ == "__main__":
     freeze_support()
     ClearLogs()
-
     logger.info("########### Execution Started ##########")
     start_time = time.time()
-    print('Script start time: :' + str(start_time))
-
+    print(f"Script end time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start_time))}")
+    logger.info(f"Script end time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(start_time))}")
     source_folder = "source/"
-
     target_folder = "target/"
     csv_file = "file_list.csv"
     log_file = "Results.txt"
-
     start_time = time.time()
+
+    filename = "./Overview.csv"
+    # opening the file with w+ mode truncates the file
+    f = open(filename, "w+")
+    f.close()
+
     DriverSheetDF = pd.read_csv("file_list.csv")
     # DriverSheetDF = DriverSheetDF[DriverSheetDF['RUN_CONTROL'] == 'YES']
     DriverSheetDF.fillna("NULL", inplace=True)
+    logger.info('')
+    logger.info('')
     print("Total Files Selected For Recon: " + str(DriverSheetDF.shape[0]))
     logger.info("Total Files Selected For Recon: " + str(DriverSheetDF.shape[0]))
-    # listOfDFRows = DriverSheetDF.to_numpy().tolist()
-    pool = multiprocessing.Pool(3)  # Create a multiprocessing Pool
-    # DbSourceConnection="DB_Source_Connection"
+    logger.info('')
+    logger.info('')
+
+    filelist = glob.glob(os.path.join(".\\target\\temp\\", "*.pdf"))
+    for f in filelist:
+        if os.path.exists(".\\target/temp\\"):
+            os.remove(f)
+        else:
+            print("The file does not exist")
+
+    num_workers = mp.cpu_count()
+    print("num_workers : " + str(num_workers - 2))
+    # pool = multiprocessing.Pool(num_workers - 2)  # Create a multiprocessing Pool
+    pool = multiprocessing.Pool(1)
     result = list((pool.map(compare_pdfs,DriverSheetDF.iterrows())))
 
     # listener = multiprocessing.Process(target=compare_pdfs,
     #                                    args=(DriverSheetDF.iterrows()))
-
     # Send DB connections in the multiprocess pool
     # result = list((pool.map(partial(ProcessingFiles,sorceDBconn=DbSourceConnection), DriverSheetDF.iterrows())))
 
@@ -578,6 +748,7 @@ if __name__ == "__main__":
     dataFrame.columns.values[4] = "SourcePageCount"
     dataFrame.columns.values[5] = "TargetPageCount"
     dataFrame.columns.values[6] = "Status"
+    dataFrame.columns.values[7] = "Comments"
 
     # print("\nDisplaying updated column names : \n", res)
 
@@ -586,118 +757,32 @@ if __name__ == "__main__":
     OverviewDF_Matching_Count = (dataFrame.loc[dataFrame['Status'] == "Matching"]).shape[0]
     OverviewDF_Not_Matching_Count = (dataFrame.loc[dataFrame['Status'] != "Matching"]).shape[0]
     # write html to file
-    text_file = open("./Overview.html", "w")
+    # text_file = open("./Overview.html", "w")
     # PassPercentage = round((int(OverviewDF_Matching_Count) / (int(OverviewDF_Matching_Count) + int(OverviewDF_Not_Matching_Count))) * 100,2)
     # html_text = Utilities.html_syntax(OverviewDF_Matching_Count, OverviewDF_Not_Matching_Count, PassPercentage,
     #                                   overview_html)
-
     # text = text_file.read();
     # print(text)
 
-    htmltextconvert = ''' 
-        <!DOCTYPE html>
-        <html lang="en">
-        <link href= "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" 
-        integrity="sha384giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <style>
-            .container{
-            background-color: #016064;
-        }
-        p{
-            text-align: center;
-        }
+    end_time = time.time()
+    print("\nComparison summary:")
+    print(f"Processed {str(OverviewDF_Matching_Count+OverviewDF_Not_Matching_Count)} files.")
+    print(f"Identical: {str(OverviewDF_Matching_Count)} files.")
+    print(f"Non Identical: {str(OverviewDF_Not_Matching_Count)} files.")
 
-        </style>
-        <body onload="load()">
-        <p>
-        <div class="d-flex justify-content-center fs-1 fw-bold "> PDF Recon Report </div>
-      <div class="d-flex justify-content-center fs-1 fw-bold "style="color: #016064;">Overview</div>
-      </p>
-      <p>
-      <div class="container">
-         <div class="row">
-            <div class="col-sm">
-               <p id='0101' class="fs-2 text-light">0</p>
-               <p class="text-light">Matching</p>
-            </div>
-            <div class="col-sm">
-               <p id='0102' class="fs-2 text-light">876</p>
-               <p class="text-light">Not Matching</p>
-         </div>
-
-            <div class="col-sm">
-               <p id='0104' class="fs-2 text-light">876</p>
-               <p class="text-light">Total</p>
-         </div>
-
-   <!--      <div class="col-sm">
-            <p class="fs-2 text-light"><span id='0103'>12</span>%</p>
-            <p class="text-light align-content-center">Total</p>
-         </div>
-    -->
-      </div>
-   </div>
-   </p>
-
-   <script>
-      function animate(obj, initVal, lastVal, duration) {
-         let startTime = null;
-
-      //get the current timestamp and assign it to the currentTime variable
-      let currentTime = Date.now();
-
-      //pass the current timestamp to the step function
-      const step = (currentTime ) => {
-
-      //if the start time is null, assign the current time to startTime
-      if (!startTime) {
-         startTime = currentTime ;
-      }
-
-      //calculate the value to be used in calculating the number to be displayed
-      const progress = Math.min((currentTime - startTime)/ duration*3, 1);
-
-      //calculate what to be displayed using the value gotten above
-  	obj.innerHTML = Math.floor(progress * (lastVal - initVal) +initVal );
-
-
-      //checking to make sure the counter does not exceed the last value (lastVal)
-      if (progress < 1) {
-         window.requestAnimationFrame(step);
-      } else {
-            window.cancelAnimationFrame(window.requestAnimationFrame(step));
-         }
-      };
-      //start animating
-         window.requestAnimationFrame(step);
-      }
-      let text1 = document.getElementById('0101');
-      let text2 = document.getElementById('0102');
-    //  let text3 = document.getElementById('0103');
-      let text4 = document.getElementById('0104');
-      const load = () => {
-        animate(text1, 0, '''+str(OverviewDF_Matching_Count)+''', 7000);
-          animate(text2, 0, '''+str(OverviewDF_Not_Matching_Count)+''', 7000);
-         // animate(text3,  100000, 20, 7000);
-       animate(text4, 100, '''+(str(OverviewDF_Matching_Count+OverviewDF_Not_Matching_Count))+''', 7000);
-       
-      }
-   </script>
-</body>
-</html>
-    '''
-
-    text_file.write(htmltextconvert)
-    text_file.close()
-
-
+    logger.info("\n")
+    logger.info("\nComparison summary:")
+    logger.info(f"Processed {str(OverviewDF_Matching_Count+OverviewDF_Not_Matching_Count)} files.")
+    logger.info(f"Identical: {str(OverviewDF_Matching_Count)} files.")
+    logger.info(f"Non Identical: {str(OverviewDF_Not_Matching_Count)} files.")
+    logger.info(f"Script end time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(end_time))}")
+    logger.info("\n")
     end_time = time.time()
     # end_time = time.time()
     TimeTaken = convert(end_time - start_time)
-    # print('Time Taken For Execution:' + str(TimeTaken))
+
+    logger.info("\n")
     logger.info('Time Taken For Execution:' + str(TimeTaken))
-    # print("##################### Execution Completed in " + str(TimeTaken) + " ################")
+
     logger.info("##################### Execution Completed in " + str(TimeTaken) + " ################")
     sg.Popup('Execution completed in ' + str(TimeTaken))
-
-
