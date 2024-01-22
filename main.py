@@ -4,7 +4,6 @@ import os
 import random
 from multiprocessing import freeze_support
 from urllib import response
-
 import PySimpleGUI as sg
 import nltk
 import numpy as np
@@ -271,7 +270,8 @@ def compare_pdfs(data):
 
                 random_number = random.randint(1, 1000)
                 SFTP_client.get(remotepath,               "./target/temp/" + target_filename + "_temp" + str(random_number)+".pdf");
-                target_path = os.path.join("./target/temp/",f"{target_filename+ "_temp" + str(random_number)}.pdf")
+               # target_path = os.path.join("./target/temp/",f"{target_filename+ "temp" + str(random_number)}.pdf")
+                target_path = os.path.join("./target/temp/",f"{target_filename+ 'temp' + str(random_number)}.pdf")
 
                 SFTP_client.close()
 

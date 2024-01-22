@@ -1,31 +1,13 @@
-[2024-01-22 13:23:19,665| INFO| MainProcess] ########### Execution Started ##########
-[2024-01-22 13:23:19,666| INFO| MainProcess] Script end time: 2024-01-22 13:23:19
-[2024-01-22 13:23:19,672| INFO| MainProcess] 
-[2024-01-22 13:23:19,672| INFO| MainProcess] 
-[2024-01-22 13:23:19,672| INFO| MainProcess] Total Files Selected For Recon: 1
-[2024-01-22 13:23:19,672| INFO| MainProcess] 
-[2024-01-22 13:23:19,672| INFO| MainProcess] 
-[2024-01-22 13:23:29,123| INFO| SpawnPoolWorker-1] child process calling self.run()
-[2024-01-22 13:23:29,156| INFO| SpawnPoolWorker-1] 79466729_Black,79466729_Black,216.85 KB,268.06 KB,2,3,
-[2024-01-22 13:23:29,156| INFO| SpawnPoolWorker-1] Non Identical,
-[2024-01-22 13:23:29,156| INFO| SpawnPoolWorker-1] File size does not match.
-
-[2024-01-22 13:23:29,157| INFO| SpawnPoolWorker-1] 
-
-[2024-01-22 13:23:29,161| INFO| SpawnPoolWorker-1] process shutting down
-[2024-01-22 13:23:29,161| INFO| SpawnPoolWorker-1] process exiting with exitcode 0
-[2024-01-22 13:23:30,090| INFO| MainProcess] 
-
-[2024-01-22 13:23:30,091| INFO| MainProcess] 
-Comparison summary:
-[2024-01-22 13:23:30,091| INFO| MainProcess] Processed 1 files.
-[2024-01-22 13:23:30,091| INFO| MainProcess] Identical: 0 files.
-[2024-01-22 13:23:30,091| INFO| MainProcess] Non Identical: 1 files.
-[2024-01-22 13:23:30,091| INFO| MainProcess] Script end time: 2024-01-22 13:23:30
-[2024-01-22 13:23:30,092| INFO| MainProcess] 
-
-[2024-01-22 13:23:30,092| INFO| MainProcess] 
-
-[2024-01-22 13:23:30,092| INFO| MainProcess] Time Taken For Execution:0:00:10
-[2024-01-22 13:23:30,092| INFO| MainProcess] ##################### Execution Completed in 0:00:10 ################
-[2024-01-22 13:23:35,600| INFO| MainProcess] process shutting down
+[2024-01-22 11:19:40,120| INFO| MainProcess] ########### Execution Started ##########
+[2024-01-22 11:19:40,121| INFO| MainProcess] Script end time: 2024-01-22 11:19:40
+[2024-01-22 11:19:40,128| INFO| MainProcess] 
+[2024-01-22 11:19:40,128| INFO| MainProcess] 
+[2024-01-22 11:19:40,128| INFO| MainProcess] Total Files Selected For Recon: 1
+[2024-01-22 11:19:40,128| INFO| MainProcess] 
+[2024-01-22 11:19:40,128| INFO| MainProcess] 
+[2024-01-22 11:19:42,454| INFO| SpawnPoolWorker-1] child process calling self.run()
+[2024-01-22 11:19:42,460| INFO| SpawnPoolWorker-1] 
+ issue in file comparison method..
+[2024-01-22 11:19:42,477| INFO| MainProcess] process shutting down
+[2024-01-22 11:19:42,477| INFO| SpawnPoolWorker-1] process shutting down
+[2024-01-22 11:19:42,478| INFO| SpawnPoolWorker-1] process exiting with exitcode 0

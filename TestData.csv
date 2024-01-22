@@ -1,0 +1,6 @@
+RunControll,Execution_Mode,ENVIRONMENT,IP,PORT,USERNAME,PASSWORD,SOURCE_PATH,TARGET_PATH
+No,Remote,Test1,100.0.0.0,22,user1,YjHJREHRE@#@3nbjsds,C:\D_Driver\CSV_Recon\DUMPS\SOURCE,/home/pin/PDF_Bills/Build1
+No,Local,,100.0.0.1,22,user2,Brmsitenv@1231212,C:\D_Driver\CSV_Recon\DUMPS\SOURCE,C:\D_Driver\CSV_Recon\DUMPS\TARGET
+No,Remote,Test2,100.0.0.2,22,user3,Reoruiere,C:\D_Driver\CSV_Recon\DUMPS\SOURCE,/home/pin/PDF_Bills/Build2
+No,Remote,Test2,10.162.53.95,22,pin,Brmsitenv@123,C:\Users\srikanthd\Desktop\Git Space\source,/home/pin/PDF_Bills
+Yes,Local,,,,,,C:\Users\srikanthd\Desktop\Git Space\source,C:\Users\srikanthd\Desktop\Git Space\target
