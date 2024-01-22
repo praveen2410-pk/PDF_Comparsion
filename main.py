@@ -782,6 +782,8 @@ if __name__ == "__main__":
     TimeTaken = convert(end_time - start_time)
 
     logger.info("\n")
+
+    logger.info("\n")
     logger.info('Time Taken For Execution:' + str(TimeTaken))
 
     logger.info("##################### Execution Completed in " + str(TimeTaken) + " ################")
