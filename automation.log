@@ -1,39 +1,20 @@
-[2024-01-14 11:07:00,295| INFO| MainProcess] ########### Execution Started ##########
-[2024-01-14 11:07:00,296| INFO| MainProcess] Script end time: 2024-01-14 11:07:00
-[2024-01-14 11:07:00,300| INFO| MainProcess] 
-[2024-01-14 11:07:00,300| INFO| MainProcess] 
-[2024-01-14 11:07:00,300| INFO| MainProcess] Total Files Selected For Recon: 2
-[2024-01-14 11:07:00,300| INFO| MainProcess] 
-[2024-01-14 11:07:00,301| INFO| MainProcess] 
-[2024-01-14 11:07:04,433| INFO| SpawnPoolWorker-1] child process calling self.run()
-[2024-01-14 11:07:04,440| INFO| SpawnPoolWorker-1] ENVIRONMENT: Test2
-[2024-01-14 11:07:04,440| INFO| SpawnPoolWorker-1] ########### Creating Connection ##########
-[2024-01-14 11:07:09,104| INFO| SpawnPoolWorker-1] Remote System Connected Successfully....
-[2024-01-14 11:07:12,132| INFO| SpawnPoolWorker-1] 79466729_Black,79466729_Black,216.85 KB,268.06 KB,2,3,
-[2024-01-14 11:07:12,133| INFO| SpawnPoolWorker-1] Non Identical,
-[2024-01-14 11:07:12,133| INFO| SpawnPoolWorker-1] File size does not match.
+[2024-01-21 19:46:32,741| INFO| MainProcess] ########### Execution Started ##########
+[2024-01-21 19:46:32,742| INFO| MainProcess] Script end time: 2024-01-21 19:46:32
+[2024-01-21 19:46:32,751| INFO| MainProcess] 
+[2024-01-21 19:46:32,751| INFO| MainProcess] 
+[2024-01-21 19:46:32,751| INFO| MainProcess] Total Files Selected For Recon: 2
+[2024-01-21 19:46:32,751| INFO| MainProcess] 
+[2024-01-21 19:46:32,751| INFO| MainProcess] 
+[2024-01-21 19:46:38,038| INFO| SpawnPoolWorker-1] child process calling self.run()
+[2024-01-21 19:46:38,050| INFO| SpawnPoolWorker-1] ENVIRONMENT: Test2
+[2024-01-21 19:46:38,051| INFO| SpawnPoolWorker-1] ########### Creating Connection ##########
+[2024-01-21 19:46:59,092| ERROR| SpawnPoolWorker-1] [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+[2024-01-21 19:46:59,157| INFO| SpawnPoolWorker-1] ENVIRONMENT: Test2
+[2024-01-21 19:46:59,157| INFO| SpawnPoolWorker-1] ########### Creating Connection ##########
+[2024-01-21 19:47:20,196| ERROR| SpawnPoolWorker-1] [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+[2024-01-21 19:47:20,197| INFO| SpawnPoolWorker-1] 79342579_LA,79342579_LA,,-,-,-,-,Source file not found.
 
-[2024-01-14 11:07:12,134| INFO| SpawnPoolWorker-1] 
-
-[2024-01-14 11:07:12,143| INFO| SpawnPoolWorker-1] ENVIRONMENT: Test2
-[2024-01-14 11:07:12,143| INFO| SpawnPoolWorker-1] ########### Creating Connection ##########
-[2024-01-14 11:07:16,190| INFO| SpawnPoolWorker-1] Remote System Connected Successfully....
-[2024-01-14 11:07:23,153| INFO| SpawnPoolWorker-1] 79342579_LA,79342579_LA,2.46 MB,2.36 MB,172,172,
-[2024-01-14 11:07:30,618| INFO| SpawnPoolWorker-1] 79342579_LA,79342579_LA,2.46 MB,2.36 MB,172,172,
-[2024-01-14 11:07:30,751| INFO| SpawnPoolWorker-1] process shutting down
-[2024-01-14 11:07:30,752| INFO| SpawnPoolWorker-1] process exiting with exitcode 0
-[2024-01-14 11:07:35,217| INFO| MainProcess] 
-
-[2024-01-14 11:07:35,217| INFO| MainProcess] 
-Comparison summary:
-[2024-01-14 11:07:35,217| INFO| MainProcess] Processed 2 files.
-[2024-01-14 11:07:35,218| INFO| MainProcess] Identical: 0 files.
-[2024-01-14 11:07:35,218| INFO| MainProcess] Non Identical: 2 files.
-[2024-01-14 11:07:35,218| INFO| MainProcess] Script end time: 2024-01-14 11:07:35
-[2024-01-14 11:07:35,218| INFO| MainProcess] 
-
-[2024-01-14 11:07:35,218| INFO| MainProcess] 
-
-[2024-01-14 11:07:35,219| INFO| MainProcess] Time Taken For Execution:0:00:34
-[2024-01-14 11:07:35,219| INFO| MainProcess] ##################### Execution Completed in 0:00:34 ################
-[2024-01-14 11:07:51,650| INFO| MainProcess] process shutting down
+[2024-01-21 19:47:20,197| INFO| SpawnPoolWorker-1] 
+ issue in file comparison method..
+[2024-01-21 19:47:20,243| INFO| MainProcess] process shutting down
+[2024-01-21 19:47:20,244| INFO| SpawnPoolWorker-1] process shutting down
